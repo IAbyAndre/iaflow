@@ -1,0 +1,269 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #222;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+#graph-container {
+  width: 100%;
+  height: 100%;
+  image-rendering: auto;
+  background: #222;
+}
+canvas {
+  image-rendering: -webkit-optimize-contrast;
+}
+.lgraphcanvas .node.executing {
+  box-shadow: 0 0 20px #4CAF50 !important;
+}
+/* ComfyUI-style textarea */
+.comfy-multiline-input {
+  position: fixed;
+  background: #1a1a1a;
+  border: none;
+  border-radius: 0;
+  color: #ddd;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  padding: 6px 8px;
+  resize: none;
+  outline: none;
+  z-index: 5;
+  box-sizing: border-box;
+  margin: 0;
+}
+.comfy-multiline-input:focus {
+  background: #222;
+  outline: 1px solid #555;
+}
+.comfy-multiline-input::placeholder {
+  color: #666;
+}
+#api-key-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 15px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 8px;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+#zoom-control {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 15px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 8px;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#run-workflow-btn {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  padding: 12px 24px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+#run-workflow-btn:hover {
+  background: #45a049;
+}
+#run-workflow-btn:disabled {
+  background: #666;
+  cursor: not-allowed;
+}
+#run-workflow-btn.running {
+  background: #FF9800;
+}
+#workflow-controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 100;
+}
+.workflow-btn {
+  padding: 8px 16px;
+  background: #2a2a2a;
+  color: white;
+  border: 1px solid #444;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  transition: background 0.2s;
+}
+.workflow-btn:hover {
+  background: #3a3a3a;
+}
+#file-input {
+  display: none;
+}
+#zoom-control label {
+  color: #fff;
+  font-size: 11px;
+  white-space: nowrap;
+}
+#zoom-slider {
+  width: 150px;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #444;
+  outline: none;
+  border-radius: 2px;
+}
+#zoom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #4CAF50;
+  cursor: pointer;
+  border-radius: 50%;
+}
+#zoom-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: #4CAF50;
+  cursor: pointer;
+  border-radius: 50%;
+  border: none;
+}
+#zoom-value {
+  color: #aaa;
+  font-size: 11px;
+  font-family: monospace;
+  min-width: 35px;
+}
+.zoom-btn {
+  background: #444;
+  border: none;
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.zoom-btn:hover {
+  background: #555;
+}
+#center-btn {
+  padding: 6px 12px;
+  background: #444;
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  white-space: nowrap;
+}
+#center-btn:hover {
+  background: #555;
+}
+.api-key-group {
+  margin-bottom: 15px;
+}
+.api-key-group:last-child {
+  margin-bottom: 0;
+}
+#api-key-panel label {
+  color: #fff;
+  font-size: 12px;
+  display: block;
+  margin-bottom: 5px;
+}
+#wavespeed-api-key-input,
+#fal-api-key-input {
+  width: 250px;
+  padding: 8px;
+  background: #1e1e1e;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 12px;
+  font-family: monospace;
+}
+#save-wavespeed-key-btn,
+#save-fal-key-btn {
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+#save-wavespeed-key-btn:hover,
+#save-fal-key-btn:hover {
+  background: #45a049;
+}
+.api-status {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #aaa;
+}
+.api-status.saved {
+  color: #4CAF50;
+}
+
+/* Emoji support in menus and nodes */
+.litegraph.litecontextmenu .litemenu-entry {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+/* Custom emoji sizing */
+.emoji-icon {
+  display: inline-block;
+  font-size: 1.2em;
+  line-height: 1;
+  vertical-align: middle;
+  margin-right: 0.3em;
+}
+
+.emoji-icon.small {
+  font-size: 0.9em;
+}
+
+.emoji-icon.large {
+  font-size: 1.4em;
+}
+
+/* Emoji in LiteGraph context menus */
+.litegraph.litecontextmenu .litemenu-entry .emoji-icon {
+  font-size: 1.2em;
+}
+
+/* Node title emojis */
+.litegraph .node .title .emoji-icon {
+  font-size: 1em;
+  margin-right: 0.2em;
+}

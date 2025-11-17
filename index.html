@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Node-Based Image Generator</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jagenjo/litegraph.js/css/litegraph.css">
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jagenjo/litegraph.js/css/litegraph-editor.css"> -->
+  <link rel="stylesheet" href="./scripts/css/styles.css">
+  <script src="https://cdn.jsdelivr.net/gh/jagenjo/litegraph.js/build/litegraph.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/gh/jagenjo/litegraph.js@release/build/litegraph.core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/jagenjo/litegraph.js@release/build/litegraph.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/jagenjo/litegraph.js@release/build/litegraph_mini.min.js"></script> -->
+  <script src="./scripts/js/iconConfig.js" defer></script>
+  <script src="./scripts/js/providerConfig.js" defer></script>
+  <script src="./scripts/js/workflowManager.js" defer></script>
+  <script src="./scripts/js/nodeMenu.js" defer></script>
+  <script src="./scripts/js/main.js" defer></script>
+  <!-- Shared Nodes -->
+  <script src="./scripts/js/nodes/shared/PromptNode.js" defer></script>
+  <script src="./scripts/js/nodes/shared/ImagePreviewNode.js" defer></script>
+  <script src="./scripts/js/nodes/shared/ImageUploadNode.js" defer></script>
+  <script src="./scripts/js/nodes/shared/VideoPreviewNode.js" defer></script>
+  <script src="./scripts/js/nodes/shared/VideoUploadNode.js" defer></script>
+  <script src="./scripts/js/nodes/shared/Model3DPreviewNode.js" defer></script>
+  <script src="./scripts/js/nodes/shared/Model3DUploadNode.js" defer></script>
+  <script src="./scripts/js/nodes/shared/JsonOutputNode.js" defer></script>
+  <!-- Flux Schnell -->
+  <script src="./scripts/js/nodes/flux-schnell/wavespeed.js" defer></script>
+  <script src="./scripts/js/nodes/flux-schnell/fal.js" defer></script>
+  <!-- Image Upscaler -->
+  <script src="./scripts/js/nodes/image-upscaler/wavespeed.js" defer></script>
+  <!-- <script src="./scripts/js/nodes/image-upscaler/fal.js" defer></script> -->
+  <!-- Midjourney Video -->
+  <script src="./scripts/js/nodes/midjourney-video/wavespeed.js" defer></script>
+  <!-- Qwen Image Edit -->
+  <script src="./scripts/js/nodes/qwen-image-edit/wavespeed.js" defer></script>
+  <!-- Legacy nodes (to be removed) -->
+  <!-- <script src="./scripts/js/nodes/ImageGeneratorNode.js" defer></script> -->
+</head>
+<body>
+  <div id="workflow-controls">
+    <button class="workflow-btn" id="export-btn">📥 Export</button>
+    <button class="workflow-btn" id="import-btn">📤 Import</button>
+    <input type="file" id="file-input" accept=".json">
+  </div>
+  <div id="api-key-panel">
+    <form id="api-key-form" onsubmit="return false;">
+      <div class="api-key-group">
+        <label for="wavespeed-api-key-input">Wavespeed API Key:</label>
+        <input type="password" id="wavespeed-api-key-input" placeholder="Enter your Wavespeed API key" autocomplete="off">
+        <button type="button" id="save-wavespeed-key-btn">Save Key</button>
+        <div class="api-status" id="wavespeed-api-status"></div>
+      </div>
+      <div class="api-key-group">
+        <label for="fal-api-key-input">Fal AI API Key:</label>
+        <input type="password" id="fal-api-key-input" placeholder="Enter your Fal AI API key" autocomplete="off">
+        <button type="button" id="save-fal-key-btn">Save Key</button>
+        <div class="api-status" id="fal-api-status"></div>
+      </div>
+    </form>
+  </div>
+  <div id="zoom-control">
+    <button class="zoom-btn" id="zoom-out">−</button>
+    <label for="zoom-slider">Zoom:</label>
+    <input type="range" id="zoom-slider" min="0.1" max="2" step="0.1" value="1">
+    <span id="zoom-value">100%</span>
+    <button class="zoom-btn" id="zoom-in">+</button>
+    <button id="center-btn">⊙ Center</button>
+  </div>
+  <button id="run-workflow-btn">
+    <span>▶</span>
+    <span id="run-workflow-text">Run Workflow</span>
+  </button>
+  <canvas id="graph-container"></canvas>
+</body>
+</html>
