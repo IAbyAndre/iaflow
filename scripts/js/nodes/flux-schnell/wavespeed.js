@@ -3,7 +3,7 @@
 // ==================== FLUX SCHNELL NODE ====================
 function FluxSchnellWavespeedNode() {
   this.addInput("Prompt", "string");
-  this.addOutput("Image URL", "string");
+  this.addOutput("Image", "string");
   this.addOutput("Data", "object");
   
   // Mandatory properties shown as widgets
@@ -19,23 +19,20 @@ function FluxSchnellWavespeedNode() {
     values: ["jpeg", "png", "webp"]
   });
   
-  this.addWidget("number", "strength", 0.8, (value) => {
+  this.addWidget("combo", "strength", 0.8, (value) => {
     this.properties.strength = value;
   }, {
-    min: 0,
-    max: 1,
-    step: 0.1,
-    precision: 1
+    values: ["0","0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1"]
   });
   
-  this.addWidget("number", "num_images", 1, (value) => {
-    this.properties.num_images = value;
-  }, {
-    min: 1,
-    max: 4,
-    step: 1,
-    precision: 0
-  });
+  // this.addWidget("number", "num_images", 1, (value) => {
+  //   this.properties.num_images = value;
+  // }, {
+  //   min: 1,
+  //   max: 4,
+  //   step: 1,
+  //   precision: 0
+  // });
   
   this.addWidget("number", "seed", -1, (value) => {
     this.properties.seed = value;
@@ -58,7 +55,7 @@ function FluxSchnellWavespeedNode() {
   this.addProperty("ratio", "1:1");
   this.addProperty("output_format", "jpeg");
   this.addProperty("strength", 0.8);
-  this.addProperty("num_images", 1);
+  // this.addProperty("num_images", 1);
   this.addProperty("seed", -1);
   this.addProperty("enable_sync_mode", false);
   this.addProperty("enable_base64_output", false);
@@ -71,7 +68,7 @@ function FluxSchnellWavespeedNode() {
   this.lastResponseData = null;
   this.provider = "WAVESPEED";
 }
-FluxSchnellWavespeedNode.title = (typeof IconConfig !== 'undefined') ? IconConfig.getModelNodeTitle("Flux Schnell", "Text To Image", "Wavespeed") : "🟡 Flux Schnell";
+FluxSchnellWavespeedNode.title = (typeof IconConfig !== 'undefined') ? IconConfig.getModelNodeTitle("Flux Schnell v1.0 (Wav.)", "Text To Image", "Wavespeed") : "🟡 Flux Schnell";
 
 FluxSchnellWavespeedNode.prototype.onExecute = function() {
   const prompt = this.getInputData(0);

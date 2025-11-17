@@ -1,15 +1,15 @@
 // ==================== IMAGE UPSCALER NODE ====================
 function ImageUpscalerNode() {
-  this.addInput("Image URL", "string");
-  this.addOutput("Image URL", "string");
+  this.addInput("Image", "string");
+  this.addOutput("Image", "string");
   this.addOutput("Data", "object");
   
-  // Provider selector widget
-  this.addWidget("combo", "provider", "WAVESPEED", (value) => {
-    this.properties.provider = value;
-  }, {
-    values: getAvailableProviders()
-  });
+  // // Provider selector widget
+  // this.addWidget("combo", "provider", "WAVESPEED", (value) => {
+  //   this.properties.provider = value;
+  // }, {
+  //   values: getAvailableProviders()
+  // });
   
   // Mandatory properties shown as widgets
   this.addWidget("combo", "resolution", "4k", (value) => {
@@ -25,11 +25,12 @@ function ImageUpscalerNode() {
   });
   
   // Properties (accessible via properties panel)
-  this.addProperty("provider", "WAVESPEED");
+  // this.addProperty("provider", "WAVESPEED");
   this.addProperty("target_resolution", "4k");
   this.addProperty("output_format", "jpeg");
   
-  this.size = [280, 100];
+  // Increase height so widgets and bottom 'Upscale Image' button are visible
+  this.size = [280, 160];
   this.isGenerating = false;
   this.status = "Ready";
   this.lastImageUrl = null;
@@ -259,4 +260,5 @@ ImageUpscalerNode.prototype.triggerOutputNodes = function() {
   }
 };
 
-LiteGraph.registerNodeType("ai-providers/image_upscaler_wavespeed", ImageUpscalerNode);
+LiteGraph.registerNodeType("ai-providers/image-upscaler/image-upscaler_wavespeed", ImageUpscalerNode);
+// ==================== END IMAGE UPSCALER NODE ====================

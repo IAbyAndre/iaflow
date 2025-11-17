@@ -57,7 +57,7 @@ function FluxSchnellFalNode() {
   this.lastResponseData = null;
   this.provider = "FAL";
 }
-FluxSchnellFalNode.title = (typeof IconConfig !== 'undefined') ? IconConfig.getModelNodeTitle("Flux Schnell", "Text To Image", "Fal") : "🟡 Flux Schnell";
+FluxSchnellFalNode.title = (typeof IconConfig !== 'undefined') ? IconConfig.getModelNodeTitle("Flux Schnell v1.0 (Fal)", "Text To Image", "Fal") : "🟡 Flux Schnell";
 
 FluxSchnellFalNode.prototype.onExecute = function() {
   const prompt = this.getInputData(0);

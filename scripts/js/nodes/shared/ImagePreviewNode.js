@@ -1,7 +1,7 @@
 // ==================== IMAGE PREVIEW NODE ====================
 function ImagePreviewNode() {
-  this.addInput("Image URL", "string");
-  this.addOutput("Image URL", "string");
+  this.addInput("Image", "string");
+  this.addOutput("Image", "string");
   
   this.size = [280, 280];
   this.imageLoaded = false;

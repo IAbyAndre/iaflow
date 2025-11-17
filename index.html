@@ -72,5 +72,23 @@
     <span id="run-workflow-text">Run Workflow</span>
   </button>
   <canvas id="graph-container"></canvas>
+
+  <!-- Minimalist floating action button and menu -->
+  <div id="floating-action" aria-hidden="true">
+    <button id="main-fab" class="fab" aria-label="Open menu">☰</button>
+    <div id="fab-menu" class="fab-menu" role="dialog" aria-hidden="true">
+      <div class="fab-header">Hi André R.</div>
+      <div class="fab-grid">
+        <button class="fab-item" id="fab-export">Export</button>
+        <button class="fab-item" id="fab-import">Import</button>
+        <button class="fab-item" id="fab-run">Run</button>
+        <button class="fab-item" id="fab-keys">API Keys</button>
+        <button class="fab-item" id="fab-zoom-in">Zoom +</button>
+        <button class="fab-item" id="fab-zoom-out">Zoom -</button>
+        <button class="fab-item" id="fab-center">Center</button>
+      </div>
+      <button class="fab-close" id="fab-close">X</button>
+    </div>
+  </div>
 </body>
 </html>

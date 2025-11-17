@@ -1,16 +1,16 @@
 // ==================== MIDJOURNEY VIDEO NODE ====================
 function MidjourneyVideoNode() {
-  this.addInput("Image URL", "string");
+  this.addInput("Image", "string");
   this.addInput("Prompt", "string");
-  this.addOutput("Video URL", "string");
+  this.addOutput("Video", "string");
   this.addOutput("Data", "object");
   
   // Provider selector widget
-  this.addWidget("combo", "provider", "WAVESPEED", (value) => {
-    this.properties.provider = value;
-  }, {
-    values: getAvailableProviders()
-  });
+  // this.addWidget("combo", "provider", "WAVESPEED", (value) => {
+  //   this.properties.provider = value;
+  // }, {
+  //   values: getAvailableProviders()
+  // });
   
   // Mandatory properties shown as widgets
   this.addWidget("combo", "resolution", "480p", (value) => {
@@ -38,7 +38,7 @@ function MidjourneyVideoNode() {
   });
   
   // Properties (accessible via properties panel)
-  this.addProperty("provider", "WAVESPEED");
+  // this.addProperty("provider", "WAVESPEED");
   this.addProperty("resolution", "480p");
   this.addProperty("aspect_ratio", "1:1");
   this.addProperty("motion", "low");
@@ -320,4 +320,5 @@ MidjourneyVideoNode.prototype.triggerOutputNodes = function() {
   }
 };
 
-LiteGraph.registerNodeType("ai-providers/midjourney_video_wavespeed", MidjourneyVideoNode);
+LiteGraph.registerNodeType("ai-providers/image-to-video/midjourney_video_wavespeed", MidjourneyVideoNode);
+

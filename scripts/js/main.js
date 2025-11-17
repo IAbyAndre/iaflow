@@ -78,7 +78,7 @@
           return;
         }
 
-        if (type === 'touchstart' || type === 'touchmove') {
+        if (type === 'touchstart' || type === 'touchmove' || type === 'wheel') {
           if (typeof options === 'boolean') {
             options = { capture: options, passive: true };
           } else if (typeof options === 'object') {
@@ -463,6 +463,99 @@
       
       fileInput.value = ''; // Reset input
     });
+
+    // Minimalist FAB menu logic
+    const mainFab = document.getElementById('main-fab');
+    const fabMenu = document.getElementById('fab-menu');
+    const fabClose = document.getElementById('fab-close');
+    const fabExport = document.getElementById('fab-export');
+    const fabImport = document.getElementById('fab-import');
+    const fabRun = document.getElementById('fab-run');
+    const fabKeys = document.getElementById('fab-keys');
+    const fabZoomIn = document.getElementById('fab-zoom-in');
+    const fabZoomOut = document.getElementById('fab-zoom-out');
+    const fabCenter = document.getElementById('fab-center');
+
+    // Show only the FAB on load (hide legacy floating controls via class)
+    document.body.classList.add('minimal-ui');
+
+    function toggleFabMenu(open) {
+      if (open) {
+        fabMenu.classList.add('open');
+        fabMenu.setAttribute('aria-hidden', 'false');
+      } else {
+        fabMenu.classList.remove('open');
+        fabMenu.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    mainFab.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleFabMenu(!fabMenu.classList.contains('open'));
+    });
+
+    fabClose.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleFabMenu(false);
+    });
+
+    // Wire menu items to existing controls
+    fabExport.addEventListener('click', () => {
+      exportBtn.click();
+      toggleFabMenu(false);
+    });
+
+    fabImport.addEventListener('click', () => {
+      fileInput.click();
+      toggleFabMenu(false);
+    });
+
+    fabRun.addEventListener('click', () => {
+      runWorkflowBtn.click();
+      toggleFabMenu(false);
+    });
+
+    fabKeys.addEventListener('click', () => {
+      // Toggle visibility of the API keys panel
+      const apiPanel = document.getElementById('api-key-panel');
+      if (apiPanel.style.display === 'block') {
+        apiPanel.style.display = 'none';
+      } else {
+        apiPanel.style.display = 'block';
+      }
+      toggleFabMenu(false);
+    });
+
+    fabZoomIn.addEventListener('click', () => {
+      zoomInBtn.click();
+      toggleFabMenu(false);
+    });
+
+    fabZoomOut.addEventListener('click', () => {
+      zoomOutBtn.click();
+      toggleFabMenu(false);
+    });
+
+    fabCenter.addEventListener('click', () => {
+      centerBtn.click();
+      toggleFabMenu(false);
+    });
+
+    // Close menu if user clicks outside
+    document.addEventListener('click', () => {
+      if (fabMenu.classList.contains('open')) toggleFabMenu(false);
+    });
+
+    // Prevent clicks inside menu from closing it
+    fabMenu.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    // Allow Escape to close
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') toggleFabMenu(false);
+    });
+
     
     // Override node shape drawing to replace default white border with animated gradient
     const originalDrawNodeShape = LGraphCanvas.prototype.drawNodeShape;
