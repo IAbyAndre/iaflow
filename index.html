@@ -6,6 +6,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jagenjo/litegraph.js/css/litegraph.css">
   <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jagenjo/litegraph.js/css/litegraph-editor.css"> -->
   <link rel="stylesheet" href="./scripts/css/styles.css">
+  <!-- Google Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/gh/jagenjo/litegraph.js/build/litegraph.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/gh/jagenjo/litegraph.js@release/build/litegraph.core.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/jagenjo/litegraph.js@release/build/litegraph.min.js"></script>
@@ -43,22 +45,7 @@
     <button class="workflow-btn" id="import-btn">📤 Import</button>
     <input type="file" id="file-input" accept=".json">
   </div>
-  <div id="api-key-panel">
-    <form id="api-key-form" onsubmit="return false;">
-      <div class="api-key-group">
-        <label for="wavespeed-api-key-input">Wavespeed API Key:</label>
-        <input type="password" id="wavespeed-api-key-input" placeholder="Enter your Wavespeed API key" autocomplete="off">
-        <button type="button" id="save-wavespeed-key-btn">Save Key</button>
-        <div class="api-status" id="wavespeed-api-status"></div>
-      </div>
-      <div class="api-key-group">
-        <label for="fal-api-key-input">Fal AI API Key:</label>
-        <input type="password" id="fal-api-key-input" placeholder="Enter your Fal AI API key" autocomplete="off">
-        <button type="button" id="save-fal-key-btn">Save Key</button>
-        <div class="api-status" id="fal-api-status"></div>
-      </div>
-    </form>
-  </div>
+  <!-- Top-level API key panel removed - moved inside the new right-sidebar -->
   <div id="zoom-control">
     <button class="zoom-btn" id="zoom-out">−</button>
     <label for="zoom-slider">Zoom:</label>
@@ -74,21 +61,46 @@
   <canvas id="graph-container"></canvas>
 
   <!-- Minimalist floating action button and menu -->
-  <div id="floating-action" aria-hidden="true">
-    <button id="main-fab" class="fab" aria-label="Open menu">☰</button>
-    <div id="fab-menu" class="fab-menu" role="dialog" aria-hidden="true">
-      <div class="fab-header">Hi André R.</div>
-      <div class="fab-grid">
-        <button class="fab-item" id="fab-export">Export</button>
-        <button class="fab-item" id="fab-import">Import</button>
-        <button class="fab-item" id="fab-run">Run</button>
-        <button class="fab-item" id="fab-keys">API Keys</button>
-        <button class="fab-item" id="fab-zoom-in">Zoom +</button>
-        <button class="fab-item" id="fab-zoom-out">Zoom -</button>
-        <button class="fab-item" id="fab-center">Center</button>
-      </div>
-      <button class="fab-close" id="fab-close">X</button>
+  <div class="floating-action-wrap">
+    <div id="floating-action" aria-hidden="true">
+    <button class="fab-item" id="fab-run" aria-label="Run workflow"><span class="material-icons play-icon" aria-hidden="true">play_arrow</span><span class="fab-text">Run</span></button>
+    <button id="main-fab" class="fab" aria-label="Open menu"><span class="material-icons">settings</span></button>
     </div>
+  </div>
+
+    <!-- Right sidebar - modern & minimalist. Opens from the right when Settings is clicked -->
+    <aside id="right-sidebar" class="right-sidebar" role="dialog" aria-hidden="true">
+      <div class="right-sidebar-header">
+        <h3>Settings</h3>
+        <button class="right-sidebar-close" id="sidebar-close" aria-label="Close"><span class="material-icons">close</span></button>
+      </div>
+      <div class="right-sidebar-body">
+        <button class="sidebar-item" id="sidebar-import"><span class="material-icons">file_upload</span>Import</button>
+        <button class="sidebar-item" id="sidebar-export"><span class="material-icons">file_download</span>Export</button>
+        <!-- API Keys are shown immediately in a separate card below; removed the click-only button -->
+
+        <!-- API Keys card inside the sidebar - visible by default as a separate box -->
+        <!-- Wavespeed key box (matches Import/Export button style) -->
+        <div class="key-card sidebar-card">
+          <div class="key-card-title"><span class="material-icons">vpn_key</span>Wavespeed API Key</div>
+          <div class="api-key-group">
+            <input type="password" id="wavespeed-api-key-input" placeholder="••••••••••••••••" autocomplete="off">
+            <button type="button" id="save-wavespeed-key-btn">Save Key</button>
+            <div class="api-status" id="wavespeed-api-status"></div>
+          </div>
+        </div>
+
+        <!-- Fal key box (matches Import/Export button style) -->
+        <div class="key-card sidebar-card">
+          <div class="key-card-title"><span class="material-icons">key</span>Fal AI API Key</div>
+          <div class="api-key-group">
+            <input type="password" id="fal-api-key-input" placeholder="••••••••••••••••" autocomplete="off">
+            <button type="button" id="save-fal-key-btn">Save Key</button>
+            <div class="api-status" id="fal-api-status"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
   </div>
 </body>
 </html>

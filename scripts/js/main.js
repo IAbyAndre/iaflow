@@ -464,8 +464,14 @@
       fileInput.value = ''; // Reset input
     });
 
-    // Minimalist FAB menu logic
+    // Minimalist FAB -> now opens a modern right sidebar instead of the old FAB dialog
     const mainFab = document.getElementById('main-fab');
+    const rightSidebar = document.getElementById('right-sidebar');
+    const sidebarClose = document.getElementById('sidebar-close');
+    const sidebarExport = document.getElementById('sidebar-export');
+    const sidebarImport = document.getElementById('sidebar-import');
+    // removed sidebarKeys click: API Keys are visible by default
+    // keep references to old fab vars (not used) for backward compatibility
     const fabMenu = document.getElementById('fab-menu');
     const fabClose = document.getElementById('fab-close');
     const fabExport = document.getElementById('fab-export');
@@ -479,81 +485,69 @@
     // Show only the FAB on load (hide legacy floating controls via class)
     document.body.classList.add('minimal-ui');
 
-    function toggleFabMenu(open) {
+    function toggleSidebar(open) {
+      if (!rightSidebar) return;
+      const isOpen = rightSidebar.getAttribute('aria-hidden') === 'false';
+      if (typeof open === 'undefined') open = !isOpen;
       if (open) {
-        fabMenu.classList.add('open');
-        fabMenu.setAttribute('aria-hidden', 'false');
+        rightSidebar.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('sidebar-open');
       } else {
-        fabMenu.classList.remove('open');
-        fabMenu.setAttribute('aria-hidden', 'true');
+        rightSidebar.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('sidebar-open');
       }
     }
 
     mainFab.addEventListener('click', (e) => {
       e.stopPropagation();
-      toggleFabMenu(!fabMenu.classList.contains('open'));
+      toggleSidebar();
     });
 
-    fabClose.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleFabMenu(false);
-    });
+    if (sidebarClose) {
+      sidebarClose.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleSidebar(false);
+      });
+    }
 
-    // Wire menu items to existing controls
-    fabExport.addEventListener('click', () => {
-      exportBtn.click();
-      toggleFabMenu(false);
-    });
-
-    fabImport.addEventListener('click', () => {
-      fileInput.click();
-      toggleFabMenu(false);
-    });
+    // Wire sidebar items to existing controls
+    if (sidebarExport) sidebarExport.addEventListener('click', () => { exportBtn.click(); toggleSidebar(false); });
+    if (sidebarImport) sidebarImport.addEventListener('click', () => { fileInput.click(); toggleSidebar(false); });
 
     fabRun.addEventListener('click', () => {
       runWorkflowBtn.click();
-      toggleFabMenu(false);
+      toggleSidebar(false);
     });
 
-    fabKeys.addEventListener('click', () => {
-      // Toggle visibility of the API keys panel
-      const apiPanel = document.getElementById('api-key-panel');
-      if (apiPanel.style.display === 'block') {
-        apiPanel.style.display = 'none';
-      } else {
-        apiPanel.style.display = 'block';
-      }
-      toggleFabMenu(false);
-    });
+    // API key card is visible by default; no click handler needed
 
     fabZoomIn.addEventListener('click', () => {
       zoomInBtn.click();
-      toggleFabMenu(false);
+      toggleSidebar(false);
     });
 
     fabZoomOut.addEventListener('click', () => {
       zoomOutBtn.click();
-      toggleFabMenu(false);
+      toggleSidebar(false);
     });
 
     fabCenter.addEventListener('click', () => {
       centerBtn.click();
-      toggleFabMenu(false);
+      toggleSidebar(false);
     });
 
-    // Close menu if user clicks outside
-    document.addEventListener('click', () => {
-      if (fabMenu.classList.contains('open')) toggleFabMenu(false);
+    // Close sidebar if user clicks outside of it
+    document.addEventListener('click', (e) => {
+      const isOpen = rightSidebar && rightSidebar.getAttribute('aria-hidden') === 'false';
+      if (isOpen && rightSidebar && !rightSidebar.contains(e.target) && e.target !== mainFab) toggleSidebar(false);
     });
 
-    // Prevent clicks inside menu from closing it
-    fabMenu.addEventListener('click', (e) => {
-      e.stopPropagation();
-    });
+    // Prevent clicks inside the sidebar from closing it
+    if (rightSidebar) rightSidebar.addEventListener('click', (e) => { e.stopPropagation(); });
 
     // Allow Escape to close
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') toggleFabMenu(false);
+      if (e.key === 'Escape') toggleSidebar(false);
     });
 
     
