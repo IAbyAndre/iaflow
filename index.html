@@ -54,17 +54,18 @@
     <button class="zoom-btn" id="zoom-in">+</button>
     <button id="center-btn">⊙ Center</button>
   </div>
-  <button id="run-workflow-btn">
-    <span>▶</span>
-    <span id="run-workflow-text">Run Workflow</span>
+  <button id="run-workflow-btn" class="fab" aria-label="Run Workflow">
+    <!-- visible icon; visually-hidden status text remains for screen readers and JS updates -->
+    <span class="material-icons play-icon" aria-hidden="true">play_arrow</span>
+    <span id="run-workflow-text" class="visually-hidden">Run Workflow</span>
   </button>
   <canvas id="graph-container"></canvas>
 
   <!-- Minimalist floating action button and menu -->
   <div class="floating-action-wrap">
-    <div id="floating-action" aria-hidden="true">
-    <button class="fab-item" id="fab-run" aria-label="Run workflow"><span class="material-icons play-icon" aria-hidden="true">play_arrow</span><span class="fab-text">Run</span></button>
-    <button id="main-fab" class="fab" aria-label="Open menu"><span class="material-icons">settings</span></button>
+    <div id="floating-action">
+    <!-- Make Run an icon-only FAB like the settings button (keeps UI compact) -->
+    <button id="main-fab" class="fab" aria-label="Open menu"><span class="material-icons ">more_vert</span></button>
     </div>
   </div>
 
@@ -84,20 +85,32 @@
         <div class="key-card sidebar-card">
           <div class="key-card-title"><span class="material-icons">vpn_key</span>Wavespeed API Key</div>
           <div class="api-key-group">
-            <input type="password" id="wavespeed-api-key-input" placeholder="••••••••••••••••" autocomplete="off">
-            <button type="button" id="save-wavespeed-key-btn">Save Key</button>
-            <div class="api-status" id="wavespeed-api-status"></div>
-          </div>
+              <!-- wrap password input in a form to satisfy browsers' password security warnings -->
+              <form class="key-form" onsubmit="return false;">
+                <!-- Hidden accessible username for password form (improves accessibility and silences browser hints) -->
+                <label for="wavespeed-username" class="visually-hidden">Wavespeed username (optional)</label>
+                <input type="text" id="wavespeed-username" name="wavespeed_username" autocomplete="username" class="visually-hidden">
+                <input type="password" id="wavespeed-api-key-input" name="wavespeed_decrypted" placeholder="••••••••••••••••" autocomplete="new-password">
+                <button type="submit" id="save-wavespeed-key-btn">Save Key</button>
+              </form>
+              <div class="api-status" id="wavespeed-api-status"></div>
+            </div>
         </div>
 
         <!-- Fal key box (matches Import/Export button style) -->
         <div class="key-card sidebar-card">
           <div class="key-card-title"><span class="material-icons">key</span>Fal AI API Key</div>
           <div class="api-key-group">
-            <input type="password" id="fal-api-key-input" placeholder="••••••••••••••••" autocomplete="off">
-            <button type="button" id="save-fal-key-btn">Save Key</button>
-            <div class="api-status" id="fal-api-status"></div>
-          </div>
+              <!-- wrap password input in a form to satisfy browsers' password security warnings -->
+              <form class="key-form" onsubmit="return false;">
+                <!-- Hidden accessible username for password form (improves accessibility and silences browser hints) -->
+                <label for="fal-username" class="visually-hidden">Fal username (optional)</label>
+                <input type="text" id="fal-username" name="fal_username" autocomplete="username" class="visually-hidden">
+                <input type="password" id="fal-api-key-input" name="fal_decrypted" placeholder="••••••••••••••••" autocomplete="new-password">
+                <button type="submit" id="save-fal-key-btn">Save Key</button>
+              </form>
+              <div class="api-status" id="fal-api-status"></div>
+            </div>
         </div>
       </div>
     </aside>

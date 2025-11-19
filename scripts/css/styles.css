@@ -65,34 +65,27 @@ canvas {
   gap: 10px;
 }
 #run-workflow-btn {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  padding: 12px 24px;
-  background: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
+  position: fixed;
+    bottom: 20px;
+    right: 20px;
   z-index: 100;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-  display: flex;
+  /* Small circular FAB like the settings button */
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #0b6aff;
+  border: none;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  transition: background 0.2s;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 6px 16px rgba(11,106,255,0.25);
+  cursor: pointer;
 }
-#run-workflow-btn:hover {
-  background: #45a049;
-}
-#run-workflow-btn:disabled {
-  background: #666;
-  cursor: not-allowed;
-}
-#run-workflow-btn.running {
-  background: #FF9800;
-}
+#run-workflow-btn:hover { filter: brightness(0.95); }
+#run-workflow-btn:focus { outline: 2px solid rgba(255,255,255,0.2); }
+#run-workflow-btn:disabled { background: #666; cursor: not-allowed; }
+#run-workflow-btn.running { background: #FF9800; }
 #workflow-controls {
   position: absolute;
   top: 20px;
@@ -103,33 +96,34 @@ canvas {
 }
 
 /* Minimalist floating menu: hide legacy floating controls and show only single FAB */
-#workflow-controls, #zoom-control, #run-workflow-btn {
+/* Keep the Run FAB visible, it's an important primary action */
+#workflow-controls, #zoom-control {
   display: none; /* Hidden in minimalist UI - accessible from FAB menu */
 }
 
 
 .floating-action-wrap { position: relative; }
 #floating-action {
-  position: absolute;
-  right: 24px;
-  bottom: 24px;
-  z-index: 200;
-  display: inline-flex;
-  gap: 12px;
-  align-items: center;
-  width: auto;
-  background: transparent;
+    position: fixed;
+    right: 24px;
+    top: 24px;
+    z-index: 200;
+    display: inline-flex;
+    gap: 12px;
+    align-items: center;
+    width: auto;
+    background: transparent;
 }
 .fab {
-  width: 50px; /* make the settings FAB a circle */
-  height: 50px;
-  border: none;
-  border-radius: 50%;
-  background: #0b6aff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 6px 16px rgba(11,106,255,0.25);
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    background: #0b6aff00;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* box-shadow: 0 6px 16px rgba(11, 106, 255, 0.25); */
 }
 .fab:active { transform: translateY(1px); }
 .fab-menu {
@@ -287,6 +281,21 @@ canvas {
   border: 1px solid rgba(0,0,0,0.06);
   background: #f7f7f8;
   font-family: monospace;
+}
+
+/* Accessible visually-hidden helper for forms (keeps element in accessibility tree) */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+  border: 0; padding: 0; margin: -1px;
+}
+
+.visually-hidden:focus {
+  position: static !important;
+  height: auto; width: auto; clip: auto; white-space: normal;
 }
 .key-card .api-status { margin-top: 6px; }
 

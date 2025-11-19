@@ -101,6 +101,10 @@
     // Create the graph and canvas (expose globally for event handlers)
     const graph = new LGraph();
     const canvas = new LGraphCanvas("#graph-container", graph);
+    // Hide the debug stats overlay (T, I, N, V, FPS) rendered by LiteGraph
+    if (typeof canvas.show_info !== 'undefined') {
+      canvas.show_info = false;
+    }
     window.graph = graph;
     window.canvas = canvas;
     
@@ -487,15 +491,42 @@
 
     function toggleSidebar(open) {
       if (!rightSidebar) return;
+
       const isOpen = rightSidebar.getAttribute('aria-hidden') === 'false';
       if (typeof open === 'undefined') open = !isOpen;
+
+      // Open the sidebar: ensure it's exposed to assistive tech and remove inert
       if (open) {
+        try { rightSidebar.inert = false; } catch (e) { /* inert might not be supported in older browsers */ }
         rightSidebar.setAttribute('aria-hidden', 'false');
         document.body.classList.add('sidebar-open');
-      } else {
-        rightSidebar.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('sidebar-open');
+
+        // Move keyboard focus inside to the close button for a11y
+        setTimeout(() => {
+          const closeBtn = document.getElementById('sidebar-close');
+          if (closeBtn) closeBtn.focus();
+        }, 0);
+        return;
       }
+
+      // Closing the sidebar: if any focused element is inside, move focus elsewhere first
+      const active = document.activeElement;
+      if (rightSidebar.contains(active)) {
+        // Prefer focusing the main FAB (entry point back to the UI)
+        if (mainFab) {
+          mainFab.focus();
+        } else if (runWorkflowBtn) {
+          runWorkflowBtn.focus();
+        } else {
+          // If not available, blur the inner element to avoid being hidden with aria-hidden
+          try { active.blur(); } catch (e) { /* ignore */ }
+        }
+      }
+
+      // Make the sidebar inert (non-interactive + removed from AT tree) where supported
+      try { rightSidebar.inert = true; } catch (e) { /* polyfill recommended for older browsers */ }
+      rightSidebar.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('sidebar-open');
     }
 
     mainFab.addEventListener('click', (e) => {
@@ -514,27 +545,35 @@
     if (sidebarExport) sidebarExport.addEventListener('click', () => { exportBtn.click(); toggleSidebar(false); });
     if (sidebarImport) sidebarImport.addEventListener('click', () => { fileInput.click(); toggleSidebar(false); });
 
-    fabRun.addEventListener('click', () => {
+    if (fabRun) {
+      fabRun.addEventListener('click', () => {
       runWorkflowBtn.click();
       toggleSidebar(false);
     });
+    }
 
     // API key card is visible by default; no click handler needed
 
-    fabZoomIn.addEventListener('click', () => {
+    if (fabZoomIn) {
+      fabZoomIn.addEventListener('click', () => {
       zoomInBtn.click();
       toggleSidebar(false);
     });
+    }
 
-    fabZoomOut.addEventListener('click', () => {
+    if (fabZoomOut) {
+      fabZoomOut.addEventListener('click', () => {
       zoomOutBtn.click();
       toggleSidebar(false);
     });
+    }
 
-    fabCenter.addEventListener('click', () => {
+    if (fabCenter) {
+      fabCenter.addEventListener('click', () => {
       centerBtn.click();
       toggleSidebar(false);
     });
+    }
 
     // Close sidebar if user clicks outside of it
     document.addEventListener('click', (e) => {
